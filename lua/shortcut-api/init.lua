@@ -40,7 +40,7 @@ function M.fetch_stories()
 		},
 		body = vim.fn.json_encode({
 			owner_id = whoami_id,
-			workflow_state_types = { "unstarted" },
+			workflow_state_types = { "unstarted", "started" },
 			updated_at_start = recently_utc_str,
 			updated_at_end = current_time_utc_str,
 		}),
@@ -76,10 +76,10 @@ function M.create_branch()
 	}, function(selection)
 		if selection then
 			local branch_name = whoami_name
-				.. "/sc-"
-				.. selection.id
-				.. "/"
-				.. string.lower(selection.name:gsub("[^%w]", "-"))
+					.. "/sc-"
+					.. selection.id
+					.. "/"
+					.. string.lower(selection.name:gsub("[^%w]", "-"))
 			vim.fn.system("git checkout -b " .. branch_name)
 			vim.notify("Created & checked out branch: " .. branch_name)
 		end
